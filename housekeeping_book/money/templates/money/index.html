@@ -1,0 +1,74 @@
+{% load static %}
+
+{% comment %} <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>HousekeepingBook</title>
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'money/style.css' %}">
+    </head>
+    <body>
+        <h1>{{ year }}年{{ month }}月</h1>
+    </body>
+</html> {% endcomment %}
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>HousekeepingBook</title>
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'money/style.css' %}">
+    </head>
+    <body>
+        <h1>{{ year }}年{{ month }}月</h1>
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>用途</th>
+                <th>金額</th>
+            </tr>
+            {% for m in money %}
+            <tr>
+                <td>{{ m.use_date }}</td>
+                <td>{{ m.detail }}</td>
+                <td>{{ m.cost }}円</td>
+            </tr>
+            {% endfor %}
+    </body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>HousekeepingBook</title>
+        <link rel="stylesheet" type="text/css"
+        href="{% static 'money/style.css' %}">
+    </head>
+    <body>
+        <h1>{{ year }}年{{ month }}月</h1>
+        <form action="/money/" method="post">
+            {% csrf_token %}
+            {{ form.as_table }}
+            <input type="submit" value="送信">
+        </form>
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>用途</th>
+                <th>金額</th>
+            </tr>
+            {% for m in money %}
+            <tr>
+                <td>{{ m.use_date }}</td>
+                <td>{{ m.detail }}</td>
+                <td>{{ m.cost }}円</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
