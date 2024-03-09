@@ -23,7 +23,7 @@
             <div class="form-money">
                 <form action="/money/" method="post">
                     {% csrf_token %}
-                    {{ form.as_table }}
+                    {{ form.as_ul }}
                     <input type="submit" value="送信">
                 </form>
             </div>
@@ -32,16 +32,16 @@
                     <table>
                         <tr>
                             <th>日付</th>
-                            <th>用途</th>
-                            <th>カテゴリー</th>
                             <th>金額</th>
+                            <th>カテゴリー</th>
+                            <th>備考</th>
                         </tr>
                         {% for m in money %}
                         <tr>
                             <td>{{ m.use_date }}</td>
-                            <td>{{ m.detail }}</td>
-                            <td>{{ m.category }}</td>
                             <td>{{ m.cost }}円</td>
+                            <td>{{ m.category }}</td>
+                            <td>{{ m.detail }}</td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="main">
                     <img src="/static/images/bar_{{ year }}_{{ month }}.svg"
-                    width=80%>
+                    width=75%>
                 </div>
             </div>
         </div>

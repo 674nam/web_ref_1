@@ -12,8 +12,8 @@ class SpendingForm(forms.Form):
 
     use_date = forms.DateTimeField(label='日付(yyyy/mm/dd)')
     cost = forms.IntegerField(label='金額(数値)')
+    category = forms.ChoiceField(choices=choices, label='カテゴリー')
     detail = forms.CharField(
             max_length=200,
             label='備考'
             )
-    category = forms.ChoiceField(choices=choices, label='カテゴリー')

@@ -8,3 +8,6 @@ class Money(models.Model):
 
     def __str__(self):
         return f"{self.use_date} {self.detail} ￥{self.cost}"
+
+    # class Meta:
+    #     ordering = ('-use_date',)

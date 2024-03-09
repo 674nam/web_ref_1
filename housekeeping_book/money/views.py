@@ -1,3 +1,4 @@
+# # ビュークラス使用 money/urls.pyも変更する必要あり
 # import calendar
 # import datetime
 # from django.shortcuts import render, redirect
@@ -78,10 +79,12 @@
 #     plt.grid(True)
 #     plt.xlim([0, last_day])
 #     plt.xlabel('日付', fontsize=16)
-#     plt.ylabel('支出額(円)', fontsize=16)
+#     plt.subplot().set_ylabel('支\n出\n額\n(円)', fontsize=16, labelpad=15, rotation=0, va='center')
 #     # static/imagesフォルダに保存
 #     plt.savefig('money/static/images/bar_{}_{}.svg'.format(year, month), transparent=True)
 
+
+# ビュークラス不使用
 import calendar
 import datetime
 from django.shortcuts import render, redirect
@@ -101,7 +104,8 @@ today = str(timezone.now()).split('-')
 def index(request, year=today[0], month=today[1]):
     year = int(year)
     month = int(month)
-    money = Money.objects.filter(use_date__year=year, use_date__month=month).order_by('use_date')
+    money = Money.objects.filter(use_date__year=year,
+                                use_date__month=month).order_by('use_date')
     total = index_utils.calc_month_pay(money)
     index_utils.format_date(money)
     form = SpendingForm()
@@ -161,5 +165,5 @@ def draw_graph(year, month):
     plt.grid(True)
     plt.xlim([0, last_day])
     plt.xlabel('日付', fontsize=16)
-    plt.ylabel('支出額(円)', fontsize=16)
+    plt.subplot().set_ylabel('支\n出\n額\n(円)', fontsize=16, labelpad=15, rotation=0, va='center')
     plt.savefig('money/static/images/bar_{}_{}.svg'.format(year, month), transparent=True)
