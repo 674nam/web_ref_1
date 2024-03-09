@@ -1,69 +1,78 @@
-# from django.shortcuts import render, redirect
-# from django.utils import timezone
-
-# def index(request):
-#     today = str(timezone.now()).split('-')
-#     context = {
-#         'year' : today[0],
-#         'month' : today[1],
-#     }
-#     return render(request, 'money/index.html', context)
-
-
-# from django.shortcuts import render, redirect
-# from django.utils import timezone
-
-# from .models import Money
-
-# def index(request):
-#     today = str(timezone.now()).split('-')
-#     money = Money.objects.all()
-#     for m in money:
-#         date = str(m.use_date).split(' ')[0]
-#         m.use_date = '/'.join(date.split('-')[1:3])
-#     context = {'year' : today[0],
-#             'month' : today[1],
-#             'money' : money,
-#     }
-#     return render(request, 'money/index.html', context)
-
+import calendar
+import datetime
 from django.shortcuts import render, redirect
 from django.utils import timezone
-# import pytz
-import datetime
+
+import matplotlib.pyplot as plt # pip install必要
+import pytz # pip install必要
 
 from .models import Money
 from .forms import SpendingForm
 
-def index(request):
-    today = str(timezone.now()).split('-')
-    money = Money.objects.all()
+plt.rcParams['font.family'] = 'MS Gothic' #日本語フォント表示
+
+def index(request, year=None, month=None):
+    if year is None or month is None:
+        today = timezone.now()
+        year = today.year
+        month = today.month
+    else:
+        year = int(year)
+        month = int(month)
+
+    money = Money.objects.filter(use_date__year=year, use_date__month=month).order_by('use_date')
+    total = 0
     for m in money:
-        date = str(m.use_date).split(' ')[0]
-        m.use_date = '/'.join(date.split('-')[1:3])
+        date = m.use_date.strftime('%m/%d')
+        m.use_date = date
+        total += m.cost
 
-    form = SpendingForm()    #フォームを読み込む
-    context = {'year' : today[0],
-            'month' : today[1],
-            'money' : money,
-            'form' : form
-            }
+    form = SpendingForm()
+    context = {
+        'year': year,
+        'month': month,
+        'money': money,
+        'total': total,
+        'form': form
+    }
 
-    if request.method == 'POST':    # フォームでデータが送られてきたら
+    draw_graph(year, month)
+    
+    if request.method == 'POST':
         data = request.POST
         use_date = data['use_date']
         cost = data['cost']
         detail = data['detail']
-        use_date = timezone.datetime.strptime(use_date, "%Y/%m/%d")
-        # tokyo_timezone = pytz.timezone('Asia/Tokyo')    #タイムゾーンを設定
-        # use_date = tokyo_timezone.localize(use_date)
-        # use_date += datetime.timedelta(hours=9)    #時間を9時間遅らせる
-
-        Money.objects.create(    # データベースにデータを入れる
-                use_date = use_date,
-                detail = detail,
-                cost = int(cost),
-                )
-        return redirect(to='/money/')    #再び/money/を読み込む
-
+        category = data['category']
+        use_date = datetime.datetime.strptime(use_date, "%Y/%m/%d")
+        tokyo_timezone = pytz.timezone('Asia/Tokyo')
+        use_date = tokyo_timezone.localize(use_date)
+        use_date += datetime.timedelta(hours=9)
+        Money.objects.create(
+            use_date=use_date,
+            detail=detail,
+            cost=int(cost),
+            category=category,
+        )
+        return redirect(to='/money/{}/{}/'.format(year, month))
+    
     return render(request, 'money/index.html', context)
+
+def draw_graph(year, month):
+    money = Money.objects.filter(use_date__year=year, use_date__month=month).order_by('use_date')
+    last_day = calendar.monthrange(year, month)[1] + 1
+    day = list(range(1, last_day))
+    cost = [0] * len(day)
+    for m in money:
+        day_index = m.use_date.day - 1
+        cost[day_index] += m.cost
+
+    plt.figure()
+    plt.bar(day, cost, color='#00bfff', edgecolor='#0000ff')
+    plt.grid(True)
+    plt.xlim([0, last_day])
+    plt.xlabel('日付', fontsize=16)
+    plt.ylabel('支出額(円)', fontsize=16)
+
+    # static/imagesフォルダに保存
+    plt.savefig('money/static/images/bar_{}_{}.svg'.format(year, month), transparent=True)

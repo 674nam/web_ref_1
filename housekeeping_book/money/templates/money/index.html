@@ -1,74 +1,43 @@
 {% load static %}
-
-{% comment %} <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>HousekeepingBook</title>
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'money/style.css' %}">
-    </head>
-    <body>
-        <h1>{{ year }}年{{ month }}月</h1>
-    </body>
-</html> {% endcomment %}
-
-
-{% comment %} <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>HousekeepingBook</title>
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'money/style.css' %}">
-    </head>
-    <body>
-        <h1>{{ year }}年{{ month }}月</h1>
-        <table>
-            <tr>
-                <th>日付</th>
-                <th>用途</th>
-                <th>金額</th>
-            </tr>
-            {% for m in money %}
-            <tr>
-                <td>{{ m.use_date }}</td>
-                <td>{{ m.detail }}</td>
-                <td>{{ m.cost }}円</td>
-            </tr>
-            {% endfor %}
-    </body>
-</html> {% endcomment %}
-
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>HousekeepingBook</title>
-        <link rel="stylesheet" type="text/css"
-        href="{% static 'money/style.css' %}">
-    </head>
-    <body>
-        <h1>{{ year }}年{{ month }}月</h1>
-        <form action="/money/" method="post">
-            {% csrf_token %}
-            {{ form.as_table }}
-            <input type="submit" value="送信">
-        </form>
+<head>
+    <meta charset="utf-8">
+    <title>HousekeepingBook</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'money/style.css' %}">
+</head>
+<body>
+<h1>{{ year }}年{{ month }}月</h1>
+<form action="/money/" method="post">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="送信">
+</form>
+<div class="wapper">
+    <div class="main">
         <table>
             <tr>
                 <th>日付</th>
                 <th>用途</th>
+                <th>カテゴリー</th>
                 <th>金額</th>
             </tr>
             {% for m in money %}
-            <tr>
-                <td>{{ m.use_date }}</td>
-                <td>{{ m.detail }}</td>
-                <td>{{ m.cost }}円</td>
-            </tr>
+                <tr>
+                    <td>{{ m.use_date }}</td>
+                    <td>{{ m.detail }}</td>
+                    <td>{{ m.category }}</td>
+                    <td>{{ m.cost }}円</td>
+                </tr>
             {% endfor %}
         </table>
-    </body>
+        <div class="tot">
+            合計：{{ total }}円
+        </div>
+    </div>
+    <div class="main">
+        <img src="{% static 'images/bar_' %}{{ year }}_{{ month }}.svg" width="80%">
+    </div>
+</div>
+</body>
 </html>
