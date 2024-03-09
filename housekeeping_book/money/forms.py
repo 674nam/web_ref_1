@@ -4,15 +4,16 @@ from .models import Money
 class SpendingForm(forms.Form):
     choices = (
         ('食費', '食費'),
-        ('学費', '学費'),
+        ('雑貨', '雑貨'),
+        ('消耗品', '消耗品'),
         ('交通費', '交通費'),
-        ('趣味', '趣味'),
+        ('娯楽', '娯楽'),
         )
 
-    use_date = forms.DateTimeField(label='日付')
-    cost = forms.IntegerField(label='金額')
+    use_date = forms.DateTimeField(label='日付(yyyy/mm/dd)')
+    cost = forms.IntegerField(label='金額(数値)')
     detail = forms.CharField(
             max_length=200,
-            label='用途'
+            label='備考'
             )
     category = forms.ChoiceField(choices=choices, label='カテゴリー')
