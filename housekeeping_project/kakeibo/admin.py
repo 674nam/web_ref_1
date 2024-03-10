@@ -26,7 +26,6 @@ from .models import Payment, Income, PaymentCategory, IncomeCategory
 from import_export import resources  # django-import-export のインストールが必要
 from import_export.admin import ImportExportModelAdmin
 
-
 class PaymentResource(resources.ModelResource):  # Paymentモデルへの統合
     class Meta:
         model = Payment
