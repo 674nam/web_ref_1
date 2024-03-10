@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'register', # 家計簿アプリ
     'kakeibo',  # ユーザー管理
     'import_export',  # django-import-exportライブラリ
+    'django.contrib.humanize', # 金額をカンマ区切りにする
 ]
 
 AUTH_USER_MODEL = 'register.User'  # カスタムユーザーモデルを指定
+NUMBER_GROUPING = 3 # 金額を3桁区切りにする
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

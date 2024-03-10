@@ -1,4 +1,5 @@
 {% extends 'kakeibo/base.html' %}
+{% load humanize %}
 {% block content %}
 
 <form class="mt-2" id="search-form" action="" method="GET">
@@ -12,12 +13,12 @@
     <th>金額</th>
     <th>摘要</th>
   </tr>
-  {% for payment in payment_list %}
 
+  {% for payment in payment_list %}
   <tr>
     <td>{{ payment.date }}</td>
     <td>{{ payment.category }}</td>
-    <td>{{ payment.price}}</td>
+    <td>{{ payment.price|intcomma}}</td>
     <td>
       {% if payment.description %}
       {{ payment.description }}
