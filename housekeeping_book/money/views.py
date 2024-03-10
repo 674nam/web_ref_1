@@ -90,8 +90,8 @@ import datetime
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-import matplotlib.pyplot as plt
-import pytz
+import matplotlib.pyplot as plt # コマンドpip install matplotlibでインストール
+import pytz # コマンドpip install pytzでインストール
 
 from .models import Money
 from .forms import SpendingForm
