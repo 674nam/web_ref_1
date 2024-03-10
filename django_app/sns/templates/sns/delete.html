@@ -1,0 +1,32 @@
+{% extends 'sns/layout.html' %}
+{% comment %} 演習① {% endcomment %}
+{% comment %} django_appのsnsアプリケーションに以下の機能を追加してください。 {% endcomment %}
+{% comment %} ・投稿内容編集機能 {% endcomment %}
+{% comment %} ・投稿削除機能 {% endcomment %}
+{% comment %} 仕様は問いませんが、それぞれでhtml、ルーティング、{% endcomment %}
+{% comment %} view関数を作成するのがやりやすいと思います。  {% endcomment %}
+
+{% block title %}Delete{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">Delete</h1>
+{% comment %} ↓ views.pyのparamsディクショナリに"title"記述があるとき {% endcomment %}
+{% comment %} {% block title %}{{title}}{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">{{title}}</h1> {% endcomment %}
+<p class="caption">※投稿メッセージを削除します。</p>
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <tr><th>owner</th><td>{{obj.owner}}</td></tr>
+    <tr><th>content</th><td>{{obj.content}}</td></tr>
+    <tr><th>good_count</th><td>{{obj.good_count}}</td></tr>
+    <tr><th>pub_date</th><td>{{obj.pub_date}}</td></tr>
+<form action="{% url 'delete' id %}" method="post">
+    {% csrf_token %}
+    <tr><th></th><td>
+        <button type='submit' value='send' class="btn btn-primary">Delete!</button>
+    </td></tr>
+</form>
+</table>
+{% endblock %}

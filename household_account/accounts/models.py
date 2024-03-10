@@ -35,8 +35,7 @@ class UserManager(BaseUserManager):
             **extra_fields,
         )
 
-class User(AbstractBaseUser, PermissionsMixin):
-
+class User(AbstractBaseUser, PermissionsMixin): # カスタムユーザーモデル
     account_id = models.CharField(
         verbose_name=_("account_id"),
         unique=True,
@@ -83,7 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'account_id' # ログイン時、ユーザー名の代わりにaccount_idを使用
-    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定する
+    REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定
 
     def __str__(self):
         return self.account_id

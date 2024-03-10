@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 
 from .models import User
 
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(admin.ModelAdmin): # 管理者画面
     list_display = ("account_id", "email", "is_superuser")
     readonly_fields = ('created_at', 'updated_at')
     ordering = ("-updated_at",)

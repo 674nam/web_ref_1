@@ -1,0 +1,30 @@
+{% extends 'sns/layout.html' %}
+{% comment %} 演習③←new! {% endcomment %}
+{% comment %} ・投稿一覧からユーザー名をクリックすると、投稿の絞り込みができる {% endcomment %}
+
+{% block title %}Find{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">Find</h1>
+{% comment %} ↓ views.pyのparamsディクショナリに"title"記述があるとき {% endcomment %}
+{% comment %} {% block title %}{{title}}{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">{{title}}</h1> {% endcomment %}
+<p>{{message|safe}}</p>
+{% endblock %}
+
+{% block content %}
+<table class="table mt-3">
+    <tr><th>Messages</th></tr>
+{% for item in contents %}
+    <tr><td>
+    <p class="fs-5 my-0">
+        {{item.content}}</p>
+    <p class="text-end my-0"> ({{item.pub_date}})</p>
+    <p class="text-end my-0 text-info">
+        good={{item.good_count}}
+    </p>
+    </p>
+</td></tr>
+{% endfor %}
+</table>
+{% endblock %}

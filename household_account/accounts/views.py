@@ -7,15 +7,15 @@ from django.contrib import messages
 from .forms import SignUpForm, LoginForm # サインアップ、ログインフォーム
 
 
-class IndexView(TemplateView): # """ ホームビュー """
+class IndexView(TemplateView): # ホームビュー
     template_name = "index.html"
 
-class SignupView(CreateView): # """ ユーザー登録用ビュー """
-    form_class = SignUpForm   # 作成した登録用フォームを設定
+class SignupView(CreateView): # ユーザー登録用ビュー
+    form_class = SignUpForm   # 登録用フォームを設定
     template_name = "accounts/signup.html"
     success_url = reverse_lazy("accounts:index") # ユーザー作成後のリダイレクト先ページ
 
-    def form_valid(self, form): # ユーザー作成後にそのままログイン状態にする設定
+    def form_valid(self, form): # ユーザー作成後にそのままログイン状態にする
         response = super().form_valid(form)
         account_id = form.cleaned_data.get("account_id")
         password = form.cleaned_data.get("password1")
@@ -26,7 +26,7 @@ class SignupView(CreateView): # """ ユーザー登録用ビュー """
 
 
 class LoginView(BaseLoginView): # ログイン
-    form_class = LoginForm
+    form_class = LoginForm      # ログイン用フォームを設定
     template_name = "accounts/login.html"
 
 class LogoutView(BaseLogoutView): # ログアウト

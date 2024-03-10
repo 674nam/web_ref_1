@@ -1,0 +1,61 @@
+{% extends 'sns/layout.html' %}
+
+{% comment %} リスト5-10 p.378 {% endcomment %}
+{% comment %} {% block title %}Post{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">Post</h1>
+<p class="caption">※メッセージを投稿します。</p>
+{% endblock %}
+
+{% block content %}
+<table class="table mt-3">
+    <tr><th>Messages</th></tr>
+{% for item in contents %}
+    <tr><td>
+    <p class="fs-5 my-0">
+        {{item.content}}</p>
+    <p class="text-end my-0"> ({{item.pub_date}})</p>
+    <p class="text-end my-0 text-info">
+        good={{item.good_count}}
+    </p>
+    </p>
+</td></tr>
+{% endfor %}
+</table>
+{% endblock %} {% endcomment %}
+
+
+{% comment %} 演習① {% endcomment %}
+{% comment %} django_appのsnsアプリケーションに以下の機能を追加してください。 {% endcomment %}
+{% comment %} ・投稿内容編集機能 {% endcomment %}
+{% comment %} ・投稿削除機能 {% endcomment %}
+{% comment %} 仕様は問いませんが、それぞれでhtml、ルーティング、view関数を作成するのがやりやすいと思います。 {% endcomment %}
+
+{% block title %}Post{% endblock %}
+{% block header %}
+<h1 class="display-4 text-primary">Post</h1>
+<p class="caption">※メッセージを投稿します。</p>
+{% endblock %}
+
+{% block content %}
+<table class="table mt-3">
+    <tr><th>Messages</th></tr>
+{% for item in contents %}
+    <tr><td>
+    <p class="fs-5 my-0">
+        {{item.content}}</p>
+    <p class="text-end my-0"> ({{item.pub_date}})</p>
+    <p class="text-end my-0 text-info">
+        good={{item.good_count}}
+    <span>
+        <a href="{% url 'edit' item.id %}">edit</a>
+    </span>
+    <span>
+        <a href="{% url 'delete' item.id %}">delete</a>
+    </span>
+    </p>
+    </p>
+</td></tr>
+{% endfor %}
+</table>
+{% endblock %}
