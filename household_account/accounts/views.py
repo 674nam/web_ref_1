@@ -4,13 +4,14 @@ from django.contrib.auth.views import LoginView as BaseLoginView, LogoutView as 
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from .forms import SignUpForm, LoginForm # サインアップ、ログインフォーム
+from .forms import SignUpForm, LoginForm, FamilyregisterForm
 
-
-class IndexView(TemplateView): # ホームビュー
+# ホーム
+class IndexView(TemplateView):
     template_name = "index.html"
 
-class SignupView(CreateView): # ユーザー登録用ビュー
+# ユーザー登録
+class SignupView(CreateView):
     form_class = SignUpForm   # 登録用フォームを設定
     template_name = "accounts/signup.html"
     success_url = reverse_lazy("accounts:index") # ユーザー作成後のリダイレクト先ページ
@@ -24,10 +25,16 @@ class SignupView(CreateView): # ユーザー登録用ビュー
         messages.success(self.request, '新規ユーザーを登録しました。')
         return response
 
+# 家名登録用
+class FamilyregisterView(CreateView):
+    form_class = FamilyregisterForm   # 登録用フォームを設定
+    template_name = "accounts/familyregister.html"
+    success_url = reverse_lazy("accounts:signup") # 家名登録後のリダイレクト先ページ
 
-class LoginView(BaseLoginView): # ログイン
+# ログイン
+class LoginView(BaseLoginView):
     form_class = LoginForm      # ログイン用フォームを設定
     template_name = "accounts/login.html"
-
-class LogoutView(BaseLogoutView): # ログアウト
+# ログアウト
+class LogoutView(BaseLogoutView):
     success_url = reverse_lazy("accounts:index")
