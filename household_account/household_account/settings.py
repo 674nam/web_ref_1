@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'accounts', # ユーザー登録アプリ
     'money', # 家計簿アプリ
     'import_export', # 家計簿のインポート、エクスポート用
+    'django.contrib.humanize', # 金額をカンマ区切りにする
 ]
 
 AUTH_USER_MODEL = "accounts.User" # カスタムユーザーを認証用ユーザーとして登録
+NUMBER_GROUPING = 3 # 金額を3桁区切りにする
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

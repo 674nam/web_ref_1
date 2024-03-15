@@ -1,25 +1,3 @@
-# # django-import-export 不使用バージョン
-# # settings.pyのINSTALLED_APPSから'import-export'を削除orコメントアウト
-# from django.contrib import admin
-# from .models import Payment, Income, PaymentCategory, IncomeCategory
-
-# class PaymentAdmin(admin.ModelAdmin): # 管理者画面：摘要の検索、カテゴリ絞り込み
-#     search_fields = ('description',)
-#     list_display = ['date', 'category', 'price', 'description']
-#     list_filter = ('category',)
-#     ordering = ('-date',)
-
-# class IncomeAdmin(admin.ModelAdmin): # 管理者画面：摘要の検索、カテゴリ絞り込み
-#     search_fields = ('description',)
-#     list_display = ['date', 'category', 'price', 'description']
-#     list_filter = ('category',)
-#     ordering = ('-date',)
-
-# admin.site.register(Payment, PaymentAdmin)
-# admin.site.register(Income, IncomeAdmin)
-# admin.site.register(PaymentCategory)
-# admin.site.register(IncomeCategory)
-
 # django-import-export 使用バージョン
 # 管理サイトからデータのインポート、エクスポートを可能にする
 # settings.pyのINSTALLED_APPSに'import-export'を追加
