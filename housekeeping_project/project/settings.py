@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'register', # ユーザー管理
-    'kakeibo',  # 家計簿アプリ
+    'register', # 家計簿アプリ
+    'kakeibo',  # ユーザー管理
     'import_export',  # django-import-exportライブラリ
     'django.contrib.humanize', # 金額をカンマ区切りにする
 ]
