@@ -1,0 +1,82 @@
+{% comment %} おまけ※カテゴリーごとの絞込み機能、index関数(Post関数？)で絞込処理 {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.css"
+        rel="stylesheet" crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <form action="{% url 'post_list' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_table}}
+        <input type="submit" value="send" class="btn btn-primary">
+
+    <div class="mt-5"></div>
+    <table class="table">
+        <tr>
+            <th class="py-1">category</th>
+            <th class="py-1">title</th>
+            <th class="py-1">username</th>
+            <th class="py-1">datetime</th>
+    {% for item in data %}
+        <tr>
+            <td class="py-2">{{item.category.name}}</td>
+            <td class="py-2">{{item.title}}</td>
+            <td class="py-2">{{item.member.username}}</td>
+            <td class="py-2">{{item.pub_date}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <ul class="pagination justify-content-center">
+        {% if data.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{% url 'post_list' %}">
+                &laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+                href="{% url 'post_list' %}{{data.previous_page_number}}">
+                &laquo; prev</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link">
+                &laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">
+                &laquo; prev</a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+            <a class="page-link">
+                {{data.number}}/{{data.paginator.num_pages}}</a>
+        </li>
+        {%if data.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+                href="{% url 'post_list' %}{{data.next_page_number}}">
+                next &raquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+                href="{% url 'post_list' %}{{data.paginator.num_pages}}">
+                last &raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link">
+                next &raquo;</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link">
+                last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</body>
+</html>

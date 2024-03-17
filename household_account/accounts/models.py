@@ -35,7 +35,20 @@ class UserManager(BaseUserManager):
             **extra_fields,
         )
 
-class User(AbstractBaseUser, PermissionsMixin): # カスタムユーザーモデル
+# 世帯テーブル
+class Family(models.Model):
+    family_name = models.CharField(
+            verbose_name=_("家名"),
+            max_length=150,
+            unique=True,
+            null=True,
+            blank=False
+        )
+    def __str__(self):
+        return f'{str(self.id)} , {self.family_name}'
+
+# カスタムユーザーモデル
+class User(AbstractBaseUser, PermissionsMixin):
     account_id = models.CharField(
         verbose_name=_("account_id"),
         unique=True,
@@ -45,14 +58,15 @@ class User(AbstractBaseUser, PermissionsMixin): # カスタムユーザーモデ
         verbose_name=_("email"),
         unique=True
     )
+    family_name = models.ForeignKey(
+        Family,
+        verbose_name=_("家名"),
+        on_delete=models.CASCADE,
+        null=True,
+        default=None  # デフォルト値
+    )
     first_name = models.CharField(
         verbose_name=_("名前"),
-        max_length=150,
-        null=True,
-        blank=False
-    )
-    last_name = models.CharField(
-        verbose_name=_("家名"),
         max_length=150,
         null=True,
         blank=False
@@ -85,4 +99,4 @@ class User(AbstractBaseUser, PermissionsMixin): # カスタムユーザーモデ
     REQUIRED_FIELDS = ['email']  # スーパーユーザー作成時にemailも設定
 
     def __str__(self):
-        return self.account_id
+        return f'{str(self.id)} : {self.account_id}'

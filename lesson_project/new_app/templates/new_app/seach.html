@@ -1,0 +1,74 @@
+{% comment %} 演習問題 {% endcomment %}
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.css"
+        rel="stylesheet" crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <p>{{message|safe}}</p>
+    <form action="{% url 'seach' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <input type="submit" value="click"
+                class="btn btn-primary">
+    </form>
+    <hr>
+    <table class="table">
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>mail</th>
+        </tr>
+    {% for item in data %}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.username}} ({{item.age}})</td>
+            <td>{{item.mail}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html> {% endcomment %}
+
+{% comment %} 演習問題※仕様変更 {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.css"
+        rel="stylesheet" crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <p>{{message|safe}}</p>
+    <p><a href="{% url 'index' %}">Back</a></p>
+    <form action="{% url 'seach' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+            <input type="submit" value="click"
+                class="btn btn-primary">
+    </form>
+    <hr>
+    <table class="table">
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>mail</th>
+        </tr>
+    {% for item in data %}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.username}} ({{item.age}})</td>
+            <td>{{item.mail}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>

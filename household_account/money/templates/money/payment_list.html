@@ -1,0 +1,62 @@
+{% extends 'money/base.html' %}
+{% load humanize %}
+
+{% block title %}
+<div class="h2">支出一覧</div>
+{% endblock %}
+
+{% block content %}
+<form class="mt-1" id="search-form" action="" method="GET">
+  {% csrf_token %}
+  <div>
+    <label class="label mr-4">年月</label>
+    {{ search_form.year }}
+    {{ search_form.month }}
+  </div>
+  <div class="mt-2">
+    <label class="label mr-4">金額</label>
+    {{ search_form.greater_than }}
+    <span class="ml-2 mr-4">～</span>
+    {{ search_form.less_than }}
+  </div>
+  <div class="mt-2">
+    <label class="label mr-4">カテゴリ</label>
+    {{ search_form.category }}
+    <label class="label mr-4">ユーザー</label>
+    {{ search_form.account_id }}
+  </div>
+  <div>
+    {{ search_form.key_word }}
+    <button class="btn btn-primary" type="submit">検索</button>
+  </div>
+</form>
+
+<table class="table mt-3">
+  <tr>
+    <th>日付</th>
+    <th>カテゴリ</th>
+    <th>金額</th>
+    <th>備考</th>
+    <th>ユーザー</th>
+  </tr>
+  {% for payment in payment_list %}
+
+  <tr>
+    <td>{{ payment.date }}</td>
+    <td>{{ payment.category }}</td>
+    <td>{{ payment.price|intcomma}}</td>
+    <td>
+      {% if payment.description %}
+      {{ payment.description }}
+      {% endif %}
+    </td>
+    <td>{{ payment.account_id }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<div class="mt-5">
+  <p>ページネーション予定位置<p>
+</div>
+
+{% endblock %}
