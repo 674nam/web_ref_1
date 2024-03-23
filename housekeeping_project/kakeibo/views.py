@@ -17,6 +17,7 @@ class PaymentList(generic.ListView):
     template_name = 'kakeibo/payment_list.html' # レンダリングするテンプレート
     model = Payment # Paymentモデルのレコードを渡す {{payment_list}}もしくは{{object_list}}
     ordering = '-date'
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset() # PaymentList.objects.all()と同等

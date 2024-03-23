@@ -1,5 +1,6 @@
 {% extends 'kakeibo/base.html' %}
 {% load humanize %}
+{% load kakeibo %}
 {% block content %}
 
 <form class="mt-2" id="search-form" action="" method="GET">
@@ -24,7 +25,7 @@
 </form>
 
 {% comment %} ↓表示件数 {% endcomment %}
-{% comment %} <p class="search-result mt-3"> {{ page_obj.paginator.count }}件の検索結果 </p> {% endcomment %}
+<p class="search-result mt-3"> {{ page_obj.paginator.count }}件の検索結果 </p>
 
 <table class="table mt-3">
   <tr>
@@ -62,7 +63,17 @@
 
 {% comment %} ↓ページネーション {% endcomment %}
 <div class="mt-5">
-  <h1>ページネーション予定位置</h1>
-</div>
+  {% comment %} <!-- 1つ前 --> {% endcomment %}
+  {% if page_obj.has_previous %}
+  <a class="mr-2 prev" href="?{% url_replace request 'page' page_obj.previous_page_number %}" title="前ページへ">前へ</a>
+  {% endif %}
 
+  {% comment %} <!-- nページ目/トータルページ数 --> {% endcomment %}
+  <span style="color:#0d1a3c">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+  {% comment %} <!-- 1つ後 --> {% endcomment %}
+  {% if page_obj.has_next %}
+  <a class="ml-2 next" href="?{% url_replace request 'page' page_obj.next_page_number %}" title="次ページへ">次へ</a>
+  {% endif %}
+</div>
 {% endblock %}
