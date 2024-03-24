@@ -177,6 +177,7 @@ class PaymentCreateForm(forms.ModelForm):
     class Meta:
         model = Payment
         # fields = '__all__'
+        # ↓ account_id以外を表示
         fields = ['date', 'category', 'item', 'user_item', 'price', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3})
@@ -192,7 +193,6 @@ class IncomeCreateForm(forms.ModelForm):
 
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form'
-            # field.widget.attrs['placeholder'] = field.label
             field.widget.attrs['autocomplete'] = 'off'
 
     class Meta:
@@ -213,3 +213,4 @@ class IncomeOrigItemForm(ModelForm):
     class Meta:
         model = IncomeOrigItem
         fields = ['category', 'name']
+

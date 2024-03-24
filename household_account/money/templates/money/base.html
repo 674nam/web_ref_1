@@ -6,34 +6,34 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-{% comment %} 最新 {% endcomment %}
+{% comment %} bootstrap.min.css {% endcomment %}
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
       crossorigin="anonymous">
+{% comment %} bootstrap.bundle.min.js ドロップダウンに必要なPopper.jsを含む {% endcomment %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"></script>
-
-{% comment %} 旧バージョン {% endcomment %}
-  {% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> {% endcomment %}
-
-  {% comment %} ドロップダウン用 {% endcomment %}
+{% comment %} jquery.min.js ドロップダウン、datepicker用 {% endcomment %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  {% comment %} <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> {% endcomment %}
 
   <style>
+  /* 各要素の階層設定 */
   .navbar {
+  position: relative;
+  z-index: 2;
+  }
+  .layout {
   position: relative;
   z-index: 1;
   }
   .container {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  }
+  /* plotlyツールバー非表示 */
+  .hidden_toolbar .modebar {
+    display: none !important;
   }
   </style>
   <title>Money</title>
@@ -69,6 +69,9 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'money:month_graph' now_year now_month%}">月間収支</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'money:month_transition' %}">月間推移</a>
+            </li>
           </ul>
 
           <ul class="navbar-nav">
@@ -77,7 +80,8 @@
                 logined : "{{ user.account_id }}"
               </button>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                <li><a class="dropdown-item" href="/logout?next=">logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'accounts:mypage' %}">マイページ</a></li>
+                <li><a class="dropdown-item" href="/logout?next=">ログアウト</a></li>
               </ul>
             </li>
           </ul>
@@ -90,14 +94,17 @@
       {% block title %}{% endblock %}
   </div>
 
+  <div style="width:90%" class="mx-auto text-center">
     {% if messages %}
       <div class="alert alert-primary alert-dismissible fade show" role="alert">
         {% for message in messages %}
-          <p>{{ message }}</p>
+          {% comment %} 改行 \n を<br>に変換して表示 {% endcomment %}
+          <p>{{ message|linebreaksbr }}</p>
         {% endfor %}
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
     {% endif %}
+  </div>
 
   <div class="container">
         {% block content %}{% endblock %}
@@ -108,8 +115,7 @@
           <a href="/logout?next=">[ logout ]</a>
       </span>
       <span class="float-right">
-        <div>2024.3 pyweb class</div>
-        <div>Morita Nanase</div>
+        <div>2024.3.27 0104pyweb class | Morita Nanase</div>
       </span>
   </div>
 </body>
