@@ -1,14 +1,13 @@
 {% extends 'accounts/base.html' %}
 
 {% block title %}
-  <div class="h2">ユーザー登録</div>
+  <div class="h3 text-center">ユーザー登録</div>
 {% endblock %}
 
 {% block content %}
   <div class="mt-5 mx-auto text-center">
     <p><a href="{% url 'accounts:familyregister' %}" >家名の登録ページへ</a></p>
   </div>
-
   <div style="width:40%" class="mx-auto text-center">
     <form method="POST">
       {% csrf_token %}
@@ -16,10 +15,13 @@
       {% for field in form %}
         <div class="mt-2">
           {{ field.errors }}
-          <label class="label mr-4">
-            {{ field.label }}：
+          <label class="label mr-4 position-relative">
+            {{ field.label }}
+              {% if field.field.required %}
+                <small><span class="badge rounded-pill bg-danger">必須</span></small>
+              {% endif %}
           </label>
-          {{ field }}
+          ：{{ field }}
         </div>
         {% endfor %}
 

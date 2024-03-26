@@ -45,7 +45,7 @@ class Family(models.Model):
             blank=False
         )
     def __str__(self):
-        return f'{str(self.id)} , {self.family_name}'
+        return self.family_name
 
     class Meta:
         ordering = ('id',)
@@ -65,14 +65,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         Family,
         verbose_name=_("家名"),
         on_delete=models.CASCADE,
+        default=None,  # デフォルト値
         null=True,
-        default=None  # デフォルト値
+        blank=True
     )
     first_name = models.CharField(
         verbose_name=_("名前"),
         max_length=150,
         null=True,
-        blank=False
+        blank=True
     )
 
     is_superuser = models.BooleanField(
